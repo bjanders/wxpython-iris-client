@@ -1,0 +1,46 @@
+#!/usr/bin/env python
+
+import wx
+import StringIO
+# Python 3: import io
+import socket
+
+BUFFER_SIZE = 60000
+PORT = 12001
+DEBUG = True
+POS = (0, 0)
+SIZE = (590, 590)
+
+class ImageFrame(wx.Frame):
+    def __init__(self, pos, size):
+        wx.Frame.__init__(self, None, pos=wx.Point(*pos), size=wx.Size(*size), style=wx.STAY_ON_TOP)
+        self.image = None
+        self.maxlen = 0
+        self.server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.server.bind(("", PORT))
+        self.Show()
+        self.Bind(wx.EVT_PAINT, self.onPaint)
+
+    def onPaint(self, event):
+        wx.CallAfter(self.readUDP)
+
+        if self.image == None:
+            return
+        i = wx.ImageFromStream(self.image, wx.BITMAP_TYPE_JPEG)
+        dc = wx.PaintDC(self)
+        dc.DrawBitmap(i.ConvertToBitmap(), 0, 0)
+
+    def readUDP(self):
+        message = self.server.recv(BUFFER_SIZE)
+        msglen = len(message)
+        if msglen > self.maxlen:
+            if DEBUG:
+                print("Max image size: {}".format(msglen))
+            self.maxlen = msglen
+        # Python 3: self.image = io.BytesIO(message)
+        self.image = StringIO.StringIO(message)
+        self.Refresh()
+
+app = wx.App(DEBUG)
+frame = ImageFrame(POS, SIZE)
+app.MainLoop()

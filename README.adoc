@@ -1,0 +1,35 @@
+= Client implemented with wxPython for the Iris Screen Exporter server 
+
+This is a client for the https://github.com/BlueFinBima/Iris-Screen-Exporter[Iris-Screen-Exporter]
+using wxPython. The intended usage is to run the client on a Linux computer,
+such as the Rasberry Pi so that you can, for example, display Multi Function
+Displays (MFDs) from Digital Combat Simulator on external displays.
+
+Currently there is no configuration file, so you will have edit the following
+parameters in the code itself:
+
+BUFFER_SIZE::
+The Iris server sends images as JPEG files in UDP packets; one image
+per packet. The receive buffer must be large enough to fit one image.
+A buffer of 60000 should be sufficient for a 600x600 pixel image. If
+you send larger images, then you will probably have to incrase this value.
+PORT::
+This the UDP port the client listens to for incoming images.
+DEBUG::
+Set to True to output debugging information to seperate window.
+Currently this will display the maximum size of the received images.
+POS::
+The upper left corner of the window that will display the images.
+SIZE::
+The size of the window. This should match the image size sent by the server.
+
+The software has been tested in:
+
+* Linux Mint (Ubuntu) in a laptop, using Python 3 and python-wxgtk4.0
+* Debian in a Raspberry Pi, using Python 2 and python-wxgtk3.0
+
+You need to install at least the following packages for
+it to work:
+
+* python-wxgtk3.0, or
+* python-wxgtk4.0
