@@ -9,14 +9,17 @@ Currently there is no configuration file, so you will have edit the following
 parameters in the code itself:
 
 BUFFER_SIZE::
-The Iris server sends images as JPEG files in UDP packets; one image
-per packet. The receive buffer must be large enough to fit one image.
-A buffer of 60000 should be sufficient for a 600x600 pixel image. If
-you send larger images, then you will probably have to incrase this value.
+The Iris server sends images as JPEG files in UDP packets; one image per
+packet. The receive buffer must be large enough to fit one image.  A buffer
+of 100000 bytes should be sufficient for a 600x600 pixel image. If you send
+larger images, then you will probably have to increase this value.
+If the client outputs "Corrupt JPEG data: premature end of data segment"
+then your buffer is probably too small.
 PORT::
-This the UDP port the client listens to for incoming images.
+This is the UDP port the client listens to for incoming images. Use the
+same port that has been configured in the Iris server.
 DEBUG::
-Set to True to output debugging information to seperate window.
+Set to True to output debugging information to a separate window.
 Currently this will display the maximum size of the received images.
 POS::
 The upper left corner of the window that will display the images.
