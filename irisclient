@@ -1,12 +1,8 @@
 #!/usr/bin/env python
 
-import sys
-pyver = sys.version[0]
-if pyver == 3:
-    import io
-else:
-    import StringIO
+import io
 import socket
+import sys
 import wx
 
 BUFFER_SIZE = 100000
@@ -41,10 +37,7 @@ class ImageFrame(wx.Frame):
             if DEBUG:
                 print("Max image size: {}".format(msglen))
             self.maxlen = msglen
-        if pyver == 3:
-            self.image = io.BytesIO(message)
-        else:
-            self.image = StringIO.StringIO(message)
+        self.image = io.BytesIO(message)
         self.Refresh()
 
 app = wx.App(DEBUG)
