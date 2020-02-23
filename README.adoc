@@ -2,7 +2,7 @@
 
 This is a client for the https://github.com/BlueFinBima/Iris-Screen-Exporter[Iris-Screen-Exporter]
 using wxPython. The intended usage is to run the client on a Linux computer,
-such as the Rasberry Pi so that you can, for example, display Multi Function
+such as the Raspberry Pi so that you can, for example, display Multi Function
 Displays (MFDs) from Digital Combat Simulator on external displays.
 
 Currently there is no configuration file, so you will have edit the following
