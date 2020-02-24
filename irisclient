@@ -11,9 +11,14 @@ DEBUG = False
 POS = (0, 0)
 SIZE = (590, 590)
 
+
 class ImageFrame(wx.Frame):
     def __init__(self, pos, size):
-        wx.Frame.__init__(self, None, pos=wx.Point(*pos), size=wx.Size(*size), style=wx.STAY_ON_TOP)
+        wx.Frame.__init__(
+                self, None,
+                pos=wx.Point(*pos),
+                size=wx.Size(*size),
+                style=wx.STAY_ON_TOP)
         self.bitmap = None
         self.maxlen = 0
         self.server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -22,12 +27,10 @@ class ImageFrame(wx.Frame):
         self.Bind(wx.EVT_PAINT, self.onPaint)
 
     def onPaint(self, event):
+        if self.bitmap is not None:
+            dc = wx.PaintDC(self)
+            dc.DrawBitmap(self.bitmap, 0, 0)
         wx.CallAfter(self.readUDP)
-
-        if self.bitmap == None:
-            return
-        dc = wx.PaintDC(self)
-        dc.DrawBitmap(self.bitmap, 0, 0)
 
     def readUDP(self):
         data = self.server.recv(BUFFER_SIZE)
@@ -39,6 +42,7 @@ class ImageFrame(wx.Frame):
         image = wx.ImageFromStream(io.BytesIO(data), wx.BITMAP_TYPE_JPEG)
         self.bitmap = image.ConvertToBitmap()
         self.Refresh()
+
 
 app = wx.App(DEBUG)
 frame = ImageFrame(POS, SIZE)
